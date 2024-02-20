@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    tools {
+        jdk "Java17pd"
+        maven "pdmaven"
+    }
+    environment {
+        VERSION = "1.0.01"
+    }
+    parameters{
+        string(name: 'DEPLOY_ENV', defaultValue: 'staging', description: '')
+        //choice(name: 'CHOICES', choices: ['one', 'two', 'three'], description: '')
+        //booleanParam(name: 'DEBUG_BUILD', defaultValue: true, description: '')
+    }
+    stages{
+        
+        stage('checkout'){
+            steps{
+                git branch: 'main', credentialsId: 'git_cred', url: 'https://github.com/padmachandra/loancheckbootcamp.git'
+            }
+        }
+        
+        stage('build'){
+            steps{
+               // echo "build stage ${params.DEPLOY_ENV}"
+                //echo "build stage ${params.CHOICES}"
+                //echo "build stage ${params.DEBUG_BUILD}"
+                bat "mvn clean package -f ${env.WORKSPACE}\\loancheckbcproj\\pom.xml"
+            }
+            
+        }
+        
+    }
+    
+    post {
+        
+        always{
+            echo 'always'
+        }
+        
+        success{
+            echo 'success'
+        }
+        
+        failure {
+            echo 'failure'
+            
+        }
+    }
+}

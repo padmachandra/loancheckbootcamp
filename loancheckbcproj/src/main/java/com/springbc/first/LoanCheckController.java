@@ -12,6 +12,8 @@ public class LoanCheckController {
 	@GetMapping("/loancheckbc/{cs}/{loanamt}/{salary}")
 	public ResponseEntity<LoanResponse> checkLoanLimit(@PathVariable("cs")int cs,@PathVariable("loanamt")int loanamt,@PathVariable("salary")int salary){
 		
+		System.out.println("loan amount"+loanamt);
+		
 		int approvedLoanAmt = 0;
 		int status = 0;
 		
